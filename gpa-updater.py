@@ -40,9 +40,11 @@ class UpdateRepo(object):
                 merge_result, _ = self.repo.merge_analysis(remote_master_id)
                 # Up to date, do nothing
                 if merge_result & pygit2.GIT_MERGE_ANALYSIS_UP_TO_DATE:
+                    print("Already up to date")
                     return
                 # We can just fastforward
                 elif merge_result & pygit2.GIT_MERGE_ANALYSIS_FASTFORWARD:
+                    print("Fast-forwarding...")
                     self.repo.checkout_tree(self.repo.get(remote_master_id))
                     try:
                         master_ref = self.repo.lookup_reference('refs/heads/%s' % (branch))
@@ -51,6 +53,7 @@ class UpdateRepo(object):
                         self.repo.create_branch(branch, self.repo.get(remote_master_id))
                     self.repo.head.set_target(remote_master_id)
                 elif merge_result & pygit2.GIT_MERGE_ANALYSIS_NORMAL:
+                    print("Merging...")
                     self.repo.merge(remote_master_id)
 
                     if self.repo.index.conflicts is not None:
