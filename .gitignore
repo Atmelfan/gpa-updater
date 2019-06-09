@@ -1,0 +1,4 @@
+# Python stuff
+venv/
+*.pyc
+*/
