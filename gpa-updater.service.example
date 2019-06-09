@@ -1,0 +1,6 @@
+[Unit]
+Description=gpa-updater
+
+[Service]
+Type=oneshot
+ExecStart=/home/pi/gpa-updater.py
